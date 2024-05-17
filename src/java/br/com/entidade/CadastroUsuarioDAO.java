@@ -49,18 +49,21 @@ public class CadastroUsuarioDAO extends DAO {
         return listaAlunos;
     }
 
-    public void deletar(Aluno aluno) throws Exception {
+     public boolean deletar(Aluno aluno) throws Exception {
         try {
             abrirBanco();
             String query = "DELETE FROM aluno WHERE matricula=?";
-            pst = con.prepareStatement(query);
+            PreparedStatement pst = con.prepareStatement(query);
             pst.setInt(1, aluno.getMatricula());
-            pst.execute();
+            int rowsAffected = pst.executeUpdate();
             fecharBanco();
+            return rowsAffected > 0;
         } catch (Exception e) {
             System.out.println("Erro ao deletar aluno: " + e.getMessage());
+            throw new Exception("Erro ao deletar aluno", e);
         }
     }
+
 
     public void alterar(Aluno aluno) throws Exception {
         try {
@@ -103,9 +106,11 @@ public class CadastroUsuarioDAO extends DAO {
             System.out.println("Erro ao pesquisar aluno: " + e.getMessage());
         }
         return null;
-        
+
     }
+
     public Aluno getUsuarioByMatricula(int matricula) throws Exception {
+        Aluno aluno = null;
         try {
             abrirBanco();
             String query = "SELECT * FROM aluno WHERE matricula=?";
@@ -113,21 +118,46 @@ public class CadastroUsuarioDAO extends DAO {
             pst.setInt(1, matricula);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                Aluno aluno = new Aluno();
+                aluno = new Aluno();
                 aluno.setMatricula(rs.getInt("matricula"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setSenha(rs.getString("senha"));
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setEndereco(rs.getString("endereco"));
                 aluno.setTelefone(rs.getString("telefone"));
-                fecharBanco();
-                return aluno;
             }
             fecharBanco();
         } catch (Exception e) {
-            System.out.println("Erro ao buscar usuário por matrícula: " + e.getMessage());
+            System.out.println("Erro ao pesquisar aluno: " + e.getMessage());
+            fecharBanco();
+            throw e;
         }
-        return null;
+        return aluno;
     }
-}
+    
+    
+    public Aluno autenticar(String cpf, String senha) throws Exception {
+        Aluno aluno = null;
+        try {
+            abrirBanco();
+            String query = "SELECT * FROM aluno WHERE cpf=? AND senha = ?";
+            pst = con.prepareStatement(query);
+            pst.setString(1, cpf);
+            pst.setString(2, senha);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                aluno = new Aluno();
+                aluno.setMatricula(rs.getInt("matricula"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setSenha(rs.getString("senha"));
+            }
+            fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao autenticar cpf: " + e.getMessage());
+            fecharBanco();
+            throw e;
+        }
+        return aluno;
+    }
 
+}

@@ -16,17 +16,14 @@ public class ServletAlterarUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            // Recebe a matrícula do parâmetro da requisição GET
-            int matricula = Integer.parseInt(request.getParameter("matricula"));
-            Aluno usuario = new Aluno();
             try {
-                CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
-                // Recupera os dados do usuário com base na matrícula
-                usuario = dao.pesquisar(matricula);
+            int matricula = Integer.parseInt(request.getParameter("matricula"));
+            CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
+            Aluno usuario = null;
+            try {
+                usuario = dao.getUsuarioByMatricula(matricula);
             } catch (Exception e) {
                 e.printStackTrace();
-                // Se houver algum erro na recuperação dos dados, redirecione para uma página de erro
                 response.sendRedirect("erro.jsp");
                 return;
             }
@@ -34,18 +31,17 @@ public class ServletAlterarUsuario extends HttpServlet {
             if (usuario == null) {
                 String msg = "Não foram encontrados registros.";
                 request.setAttribute("msgResposta", msg);
-                RequestDispatcher enviar = request.getRequestDispatcher("sessoes/adm/listaUsuarios.jsp");
+                RequestDispatcher enviar = request.getRequestDispatcher("sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp");
                 enviar.forward(request, response);
             } else {
-                // Se o usuário for encontrado, envie os dados para a página de edição
                 request.setAttribute("usuario", usuario);
-                RequestDispatcher lista = request.getRequestDispatcher("sessoes/adm/crudUsuario/editarUsuario.jsp");
+                RequestDispatcher lista = request.getRequestDispatcher("sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp");
                 lista.forward(request, response);
             }
         } catch (NumberFormatException e) {
             String msg = "Matrícula inválida.";
             request.setAttribute("msgResposta", msg);
-            RequestDispatcher enviar = request.getRequestDispatcher("sessoes/adm/listaUsuarios.jsp");
+            RequestDispatcher enviar = request.getRequestDispatcher("sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp");
             enviar.forward(request, response);
         }
     }

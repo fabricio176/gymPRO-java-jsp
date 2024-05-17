@@ -5,6 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String matriculaParam = request.getParameter("matricula");
+    Aluno usuario = null;
+    if (matriculaParam != null && !matriculaParam.isEmpty()) {
+        int matricula = Integer.parseInt(matriculaParam);
+        CadastroUsuarioDAO usuarioDAO = new CadastroUsuarioDAO();
+        try {
+            usuario = usuarioDAO.getUsuarioByMatricula(matricula);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +33,7 @@
             <span>Cidade</span>
         </div>
         <div class="user-info">
-            <span>Nome do Aluno</span>
+            <span><%= usuario.getNome() %></span>
             <button onclick="openSettings()">Configurações</button>
         </div>
     </div>

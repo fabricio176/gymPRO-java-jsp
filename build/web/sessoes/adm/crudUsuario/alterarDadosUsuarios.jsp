@@ -1,52 +1,136 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="br.com.entidade.CadastroUsuarioDAO" %>
+<%@ page import="br.com.controle.Aluno" %>
+
+<%
+    String matriculaParam = request.getParameter("matricula");
+    Aluno usuario = null;
+    if (matriculaParam != null && !matriculaParam.isEmpty()) {
+        int matricula = Integer.parseInt(matriculaParam);
+        CadastroUsuarioDAO usuarioDAO = new CadastroUsuarioDAO();
+        try {
+            usuario = usuarioDAO.getUsuarioByMatricula(matricula);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+%>
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Usu·rios</title>
-</head>
-<body>
-    <h1>Gerenciamento de Usu·rios</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gerenciamento de Usu√°rios</title>
+        <link rel="stylesheet" href="../../../css/atualizarUsuario.css"> <!-- Adicione seu CSS aqui -->
+    </head>
+    <body>
+        <h1>Gerenciamento de Usu√°rios</h1>
 
-    <!-- Formul·rio para adicionar usu·rio -->
-    <h2>Adicionar Usu·rio</h2>
-    <form action="/gympro/ServletAdicionarUsuario" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-        
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
-        
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" required pattern="[0-9]{11}" title="Digite apenas n˙meros (11 dÌgitos)"><br><br>
-        
-        <label for="endereco">EndereÁo:</label>
-        <input type="text" id="endereco" name="endereco"><br><br>
+        <!-- Formul√°rio para adicionar usu√°rio -->
+        <h2>Adicionar Usu√°rio</h2>
+        <form action="/gympro/ServletAdicionarUsuario" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required><br><br>
 
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone"><br><br>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required pattern="[0-9]{11}" title="Digite apenas n√∫meros (11 d√≠gitos)"><br><br>
+
+            <label for="endereco">Endere√ßo:</label>
+            <input type="text" id="endereco" name="endereco"><br><br>
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone"><br><br>
+
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <!-- Formul√°rio para alterar usu√°rio -->
+        <h2>Alterar Usu√°rio</h2>
+        <form id="alterarUsuarioForm" method="get">
+            <label for="matriculaEditar">Matr√≠cula do Usu√°rio:</label>
+            <input type="text" id="matriculaEditar" name="matricula" required><br><br>
+            <button type="button" onclick="openModal()">Alterar</button>
+        </form>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+
+                <% if (usuario != null) { %>
+                <form id="editarUsuarioForm" action="/gympro/ServletAlterarUsuario" method="post">
+                    <h2>Editar Usu√°rio</h2>
+                    <input type="hidden" id="matricula" name="matricula" value="<%= usuario.getMatricula() %>">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" value="<%= usuario.getNome() %>" required><br><br>
+
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" value="<%= usuario.getSenha() %>" required><br><br>
+
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" value="<%= usuario.getCpf() %>" required pattern="[0-9]{11}" title="Digite apenas n√∫meros (11 d√≠gitos)"><br><br>
+
+                    <label for="endereco">Endere√ßo:</label>
+                    <input type="text" id="endereco" name="endereco" value="<%= usuario.getEndereco() %>"><br><br>
+
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" name="telefone" value="<%= usuario.getTelefone() %>"><br><br>
+
+                    <button type="submit">Atualizar</button>
+                </form>
+                <% } else if (matriculaParam != null) { %>
+                <p>Usu√°rio n√£o encontrado.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <h2>Deletar Usu√°rio</h2>
+        <form id="deletarUsuarioForm" method="get">
+            <label for="matriculaDeletar">Matr√≠cula do Usu√°rio:</label>
+            <input type="text" id="matriculaDeletar" name="matricula" required><br><br>
+            <button type="button" onclick="openDeleteModal()">Deletar</button>
+        </form>
+
+        <!-- Modal para Deletar -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+
+                <% if (usuario != null && request.getParameter("deletar") != null) { %>
+                <form id="deletarUsuarioConfirmForm" action="/gympro/ServletDeletarUsuario" method="post">
+                    <h2>Deletar Usu√°rio</h2>
+                    <p>Tem certeza que deseja deletar o usu√°rio <strong><%= usuario.getNome() %></strong>?</p>
+                    <input type="hidden" id="matriculaDeletarConfirm" name="matricula" value="<%= usuario.getMatricula() %>">
+                    <button type="submit">Deletar</button>
+                    <button type="button" onclick="closeDeleteModal()">Cancelar</button>
+                </form>
+                <% } else if (request.getParameter("deletar") != null) { %>
+                <p>Usu√°rio n√£o encontrado.</p>
+                <% } %>
+            </div>
+        </div>
+
         
-        <button type="submit">Adicionar</button>
-    </form>
 
-    <!-- Formul·rio para alterar usu·rio -->
-    <h2>Alterar Usu·rio</h2>
-    <form action="alterarUsuario.jsp" method="get">
-        <label for="matriculaEditar">MatrÌcula do Usu·rio:</label>
-        <input type="text" id="matriculaEditar" name="matricula" required><br><br>
-        <button type="submit">Alterar</button>
-    </form>
+        <h2>Lista de Usu√°rios</h2>
+        <form action="/gympro/ServletListaUsuarios" method="POST">
+            <input type="submit" value="VER LISTA DE USUARIOS" />
+        </form>
 
-    <!-- Formul·rio para deletar usu·rio -->
-    <h2>Deletar Usu·rio</h2>
-    <form action="deletarUsuario.jsp" method="get">
-        <label for="matriculaDeletar">MatrÌcula do Usu·rio:</label>
-        <input type="text" id="matriculaDeletar" name="matricula" required><br><br>
-        <button type="submit">Deletar</button>
-    </form>
-    
-    <h2><a href="editarUsuario.jsp"> Editar Usuario</a></h2>
-    
-    
-</body>
+        <script src="../../../js/atualizarUsuario.js"></script>
+        <script>
+            <% if (usuario != null) { %>
+
+                        document.getElementById('modal').style.display = "block";
+            <% } %>
+            <% if (usuario != null && request.getParameter("deletar") != null) { %>
+                        document.getElementById('deleteModal').style.display = "block";
+            <% } %>
+        </script>
+
+
+    </body>
 </html>

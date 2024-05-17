@@ -19,7 +19,7 @@
 
         <div class="containerLogin">
             <h2>Tela de Login</h2>
-            <form id="loginForm">
+            <form id="loginForm" method="post" action="/gympro/ServletLogin">
                 <label for="cpf">CPF:</label><br>
                 <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required><br>
                 <label for="senha">Senha:</label><br>
@@ -35,7 +35,7 @@
         <div id="modal" class="overlay">
             <div class="modal">
                 <h2>Cadastro de Aluno</h2>
-                <form id="cadastroForm">
+                <form id="cadastroForm" method="post" action="/gympro/ServletCadastrarUsuario">
                     <label for="nome">Nome:</label><br>
                     <input type="text" id="nome" name="nome" required><br>
                     <label for="senha">Senha:</label><br>
@@ -55,6 +55,6 @@
 
     </form>
 
-    <script src="js/globalJs.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
