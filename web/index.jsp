@@ -15,21 +15,26 @@
     <body>
         <h1>GYMPRO</h1>
         <h2>A Academia do Povo!</h2>
-        <div class="bannerPet"></div>
 
         <div class="containerLogin">
-            <h2>Tela de Login</h2>
-            <form id="loginForm" method="post" action="/gympro/ServletLogin">
-                <label for="cpf">CPF:</label><br>
-                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required><br>
-                <label for="senha">Senha:</label><br>
-                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required><br>
-                <input type="submit" value="Login">
-            </form>
+            <div class="containerScreenLogin">
+                <div id="gif-container">
+                    <img id="gif" src="assets/imgLevantando.png" alt="Pessoa levantando peso">
+                    <img id="static-image" src="assets/gifLevantando.gif" alt="Imagem estática">
+                </div>
+                <form id="loginForm" method="post" action="/gympro/ServletLogin">
+                    <label for="cpf">CPF:</label><br>
+                    <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required maxlength="11"><br>
+                    <label for="senha">Senha:</label><br>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required maxlength="20"><br>
+                    <input type="submit" value="Login">
+                    <br><br>
+                    <input type="submit" value="Contrate seu Plano" id="openModalBtn">
+                </form>
+            </div>
         </div>
 
-        <h2>Contrate seu Plano</h2>
-        <button id="openModalBtn">Cadastrar-se</button>
+
 
         <!-- Janela Modal -->
         <div id="modal" class="overlay">
@@ -37,16 +42,16 @@
                 <h2>Cadastro de Aluno</h2>
                 <form id="cadastroForm" method="post" action="/gympro/ServletCadastrarUsuario">
                     <label for="nome">Nome:</label><br>
-                    <input type="text" id="nome" name="nome" required><br>
+                    <input type="text" id="nome" name="nome" required maxlength="60"><br>
                     <label for="senha">Senha:</label><br>
-                    <input type="password" id="senha" name="senha" required><br>
+                    <input type="password" id="senhaCadastro" name="senhaCadastro" required maxlength="20"> <br>
                     <label for="cpf">CPF:</label><br>
-                    <input type="text" id="cpf" name="cpf" required minlength="11" maxlength="11"><br>
+                    <input type="text" id="cpfCadastro" name="cpfCadastro" required maxlength="11"><br>
                     <label for="endereco">Endereço:</label><br>
-                    <input type="text" id="endereco" name="endereco"><br>
+                    <input type="text" id="endereco" name="endereco" maxlength="60"><br>
                     <label for="telefone">Telefone:</label><br>
                     <input type="text" id="telefone" name="telefone"><br><br>
-                    <button type="submit">Cadastrar</button>
+                    <input type="submit" value="Cadastrar">
                 </form>
             </div>
         </div>

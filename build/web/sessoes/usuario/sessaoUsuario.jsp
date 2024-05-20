@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="br.com.controle.Aluno, br.com.entidade.CadastroUsuarioDAO" %>
 <%
     String matriculaParam = request.getParameter("matricula");
     Aluno usuario = null;

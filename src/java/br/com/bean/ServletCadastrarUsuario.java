@@ -38,8 +38,8 @@ public class ServletCadastrarUsuario extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             String nome = request.getParameter("nome");
-            String senha = request.getParameter("senha");
-            String cpf = request.getParameter("cpf");
+            String senha = request.getParameter("senhaCadastro");
+            String cpf = request.getParameter("cpfCadastro");
             String endereco = request.getParameter("endereco");
             String telefone = request.getParameter("telefone");
 
