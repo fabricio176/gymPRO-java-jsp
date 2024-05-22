@@ -135,6 +135,28 @@ public class CadastroUsuarioDAO extends DAO {
         return aluno;
     }
     
+    public String getNomeUsuarioByCpf(String cpf) throws Exception {
+    String nome = null;
+    try {
+        abrirBanco();
+        String query = "SELECT nome FROM aluno WHERE cpf=?";
+        pst = con.prepareStatement(query);
+        pst.setString(1, cpf);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            nome = rs.getString("nome");
+        }
+        fecharBanco();
+    } catch (Exception e) {
+        System.out.println("CPF Não encontrado: " + e.getMessage());
+        fecharBanco();
+        throw e;
+    }
+    return nome;
+}
+    
+    
+    
     
     public Aluno autenticar(String cpf, String senha) throws Exception {
         Aluno aluno = null;
@@ -147,7 +169,6 @@ public class CadastroUsuarioDAO extends DAO {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 aluno = new Aluno();
-                aluno.setMatricula(rs.getInt("matricula"));
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setSenha(rs.getString("senha"));
             }
@@ -158,6 +179,27 @@ public class CadastroUsuarioDAO extends DAO {
             throw e;
         }
         return aluno;
+    }
+    
+    public boolean existeCpf(String cpf) throws Exception {
+        boolean existe = false;
+        try {
+            abrirBanco();
+            String query = "SELECT COUNT(*) FROM aluno WHERE cpf=?";
+            pst = con.prepareStatement(query);
+            pst.setString(1, cpf);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                existe = count > 0;
+            }
+            fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar CPF cadastrado: " + e.getMessage());
+            fecharBanco();
+            throw e;
+        }
+        return existe;
     }
     
 }

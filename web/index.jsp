@@ -10,11 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Página de cadastro</title>
-        <link rel="stylesheet" href="css/index.css"/>
+         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/globalCss.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     </head>
     <body>
-        <h1>GYMPRO</h1>
-        <h2>A Academia do Povo!</h2>
+        <div class="iconLogo" id="iconLogoWidth"></div>
 
         <div class="containerLogin">
             <div class="containerScreenLogin">

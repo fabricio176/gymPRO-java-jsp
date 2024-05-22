@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gymPRO-java-jsp/src/java/br/com/bean/ServletLogin.java</file>
-            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gymPRO-java-jsp/web/js/index.js</file>
-            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gymPRO-java-jsp/web/css/index.css</file>
-            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gymPRO-java-jsp/web/index.jsp</file>
-            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gymPRO-java-jsp/src/java/br/com/bean/ServletCadastrarUsuario.java</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/src/java/br/com/bean/ServletCadastrarUsuario.java</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/src/java/br/com/entidade/CadastroUsuarioDAO.java</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/src/java/br/com/bean/ServletDeletarUsuario.java</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/web/sessoes/usuario/sessaoUsuario.jsp</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/web/index.jsp</file>
+            <file>file:/C:/Users/tr26330es/Documents/NetBeansProjects/gympro/src/java/br/com/bean/ServletAlterarUsuario.java</file>
         </group>
     </open-files>
 </project-private>

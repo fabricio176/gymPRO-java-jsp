@@ -15,6 +15,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,13 +35,14 @@ public class ServletCadastrarUsuario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
+        try {
+            String cpf = request.getParameter("cpfCadastro");
+            CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
+    
             String nome = request.getParameter("nome");
             String senha = request.getParameter("senhaCadastro");
-            String cpf = request.getParameter("cpfCadastro");
             String endereco = request.getParameter("endereco");
             String telefone = request.getParameter("telefone");
 
@@ -50,26 +53,23 @@ public class ServletCadastrarUsuario extends HttpServlet {
             a.setEndereco(endereco);
             a.setTelefone(telefone);
 
-            CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
+            dao.inserir(a);
 
-            try {
-                dao.inserir(a);
-                request.setAttribute(nome, a.getNome());
-                request.setAttribute(senha, a.getSenha());
-                request.setAttribute(cpf, a.getCpf());
-                request.setAttribute(endereco, a.getEndereco());
-                request.setAttribute(telefone, a.getTelefone());
+            // Armazena o CPF do usuário na sessão
+            request.getSession().setAttribute("cpfUsuarioLogado", cpf);
 
-                ArrayList<Aluno> listaUsuarios = dao.pesquisarTudo();
+            // Encaminha o nome do usuário para a sessãoUsuario.jsp
+            request.setAttribute("nomeUsuario", nome);     
 
-                request.setAttribute("listaUsuarios", listaUsuarios);
+            // Encaminha para a sessaoUsuario.jsp
+            RequestDispatcher rd = request.getRequestDispatcher("sessoes/usuario/sessaoUsuario.jsp");
+            rd.forward(request, response);
+            
 
-                RequestDispatcher rd = request.getRequestDispatcher("sessoes/usuario/sessaoUsuario.jsp");
-                rd.forward(request, response);
+            
 
-            } catch (Exception e) {
-
-            }
+        } catch (Exception e) {
+            // Trate qualquer exceção aqui
         }
     }
 
@@ -85,7 +85,11 @@ public class ServletCadastrarUsuario extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletCadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -99,7 +103,11 @@ public class ServletCadastrarUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletCadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

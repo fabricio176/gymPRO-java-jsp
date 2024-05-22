@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author victo
  */
-
 @WebServlet(name = "ServletLogin", urlPatterns = {"/ServletLogin"})
 public class ServletLogin extends HttpServlet {
 
@@ -35,16 +34,18 @@ public class ServletLogin extends HttpServlet {
             throws ServletException, IOException {
         String cpf = request.getParameter("cpf");
         String senha = request.getParameter("senha");
-        
+
         CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
         try {
             Aluno usuario = dao.autenticar(cpf, senha);
             if (usuario != null) {
-                // Se o usuário for autenticado com sucesso, redireciona para a página de boas-vindas
-                request.getSession().setAttribute("usuarioLogado", usuario);
+                
+                String nome = dao.getNomeUsuarioByCpf(cpf);
+                // Autenticação bem-sucedida, redireciona para a página de boas-vindas
+                request.getSession().setAttribute("nomeUsuario", nome);
                 response.sendRedirect("sessoes/usuario/sessaoUsuario.jsp");
             } else {
-                // Se as credenciais forem inválidas, redireciona de volta para a página de login com uma mensagem de erro
+                // Credenciais inválidas, redireciona de volta para a página de login com uma mensagem de erro
                 request.setAttribute("mensagemErro", "CPF ou senha inválidos");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
@@ -55,9 +56,6 @@ public class ServletLogin extends HttpServlet {
             request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
     }
-
-
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -76,7 +74,6 @@ public class ServletLogin extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     /**
      * Returns a short description of the servlet.
      *
