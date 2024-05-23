@@ -120,26 +120,30 @@ span{
     padding: 5px;
 }
 
+.modal-content p  button{
+    width: 80px;
+    background-color: #ff3d00; /* Cor de fundo vermelha intensa */
+    border-radius: 5px;
+    border: none; /* Remove borda */
+    
+}
+
 #logoutButton {
-  height: 100%;
-  width: 100%;
-  display: inline-block;
-  background-color: #ff3d00; /* Cor de fundo vermelha intensa */
-  color: white; /* Cor do texto */
-  text-decoration: none; /* Remove sublinhado */
-  border: none; /* Remove borda */
-  cursor: pointer; /* Cursor de mão ao passar o mouse */
-  transition: background-color 0.3s; /* Transição suave de cor de fundo */
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    color: white; /* Cor do texto */
+    text-decoration: none; /* Remove sublinhado */
 }
 
 
 
 #logoutButton:hover {
-  background-color: #d50000; /* Cor de fundo mais escura ao passar o mouse */
+    background-color: #d50000; /* Cor de fundo mais escura ao passar o mouse */
 }
 
 #logoutButton:focus {
-  outline: none; /* Remove contorno ao focar */
+    outline: none; /* Remove contorno ao focar */
 }
 
 /* Estilos para o botão de fechar */

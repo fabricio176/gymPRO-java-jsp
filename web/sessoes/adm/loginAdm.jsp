@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login do Administrador</title>
-</head>
-<body>
-    <h1>Login do Administrador</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login do Administrador</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/globalCss.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
+    </head>
+    <body>
 
-    <%-- Verifica se houve uma tentativa de login --%>
-    <% String mensagem = (String)request.getAttribute("mensagem"); %>
-    <% if (mensagem != null) { %>
+
+        <%-- Verifica se houve uma tentativa de login --%>
+        <% String mensagem = (String)request.getAttribute("mensagem"); %>
+        <% if (mensagem != null) { %>
         <p><%= mensagem %></p>
-    <% } %>
+        <% } %>
 
-    <form action="authAdm.jsp" method="post">
-        <label for="username">Nome de usuário:</label>
-        <input type="text" id="username" name="nome" required><br><br>
+        <div class="iconLogo" id="iconLogoWidth"></div>
+        <div class="containerLogin">
+            <div class="containerScreenLogin">
+                <h1 style="text-align: center;" >Login do Administrador</h1>
 
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="senha" required><br><br>
-
-        <button type="submit">Login</button>
-    </form>
-</body>
+                <form id="loginForm" method="post" action="authAdm.jsp">
+                    <label for="username">Nome de Usuário</label><br>
+                    <input type="text" id="username" name="nome" placeholder="Digite seu nome de usuário" required maxlength="11"><br>
+                    <label for="password">Senha:</label><br>
+                    <input type="password" id="password" name="senha" placeholder="Digite sua senha" required maxlength="20"><br>
+                    <input type="submit" value="Login">
+                    <br><br>         
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="${pageContext.request.contextPath}/js/index.js"></script>
 </html>

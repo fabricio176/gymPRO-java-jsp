@@ -54,7 +54,7 @@
                 <span class="close" onclick="closeSettings()">&times;</span>
                 <h2>Configurações</h2>
                 <p>Área do Aluno</p>
-                <p><button type="submit"> <a href="${pageContext.request.contextPath}/index.jsp" id="logoutButton">Sair</a></p></button>
+                <p><button type="submit"> <a href="${pageContext.request.contextPath}/index.jsp" id="logoutButton">Sair</a></button></p>
             </div>
         </div>
     </body>

@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 h1{
     text-align: center;
-    font-size: 60px;
+    font-size: 30px;
 }
 
 h2{
@@ -64,7 +64,7 @@ h2{
 }
 
 .containerScreenLogin {
-    max-width: 400px;
+    width: 400px;
     background-color: white;
     margin: 0 auto;
     padding: 20px;
