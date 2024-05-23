@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>GymPro Academia</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/globalCss.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sessaoUsuario.css"/>
     </head>
@@ -54,7 +54,7 @@
                 <span class="close" onclick="closeSettings()">&times;</span>
                 <h2>Configurações</h2>
                 <p>Área do Aluno</p>
-                <p>Sair</p>
+                <p><button type="submit"> <a href="${pageContext.request.contextPath}/index.jsp" id="logoutButton">Sair</a></p></button>
             </div>
         </div>
     </body>

@@ -22,9 +22,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #333; /* Cor de fundo */
     overflow: hidden;
-    
     display: flex;
     align-items: center;
 }
@@ -36,6 +34,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /* Estilos para os links */
 .nav li a {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
     display: block;
     color: white; /* Cor do texto */
     text-align: center;
@@ -73,10 +74,85 @@ span{
     margin-right: 10px;
 }
 .user-info button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #f5f5dc;
+
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: bold;
+    color: #342800 ;
+
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Estilos para a modal */
+.modal {
+    display: none; /* Inicia oculta */
+    position: fixed; /* Permanece fixa na tela */
+    z-index: 1; /* Garante que esteja acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Adiciona rolagem se necessário */
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro translúcido */
+}
+
+/* Estilos para o conteúdo da modal */
+.modal-content {
+    text-align: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* Centraliza verticalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px; /* Largura máxima */
+    border-radius: 8px;
+}
+
+.modal-content > h2{
+    text-transform: uppercase;
+    background-color: #342800;
+    color:#f5f5dc;
+    border-radius: 30px;
+    padding: 5px;
+}
+
+#logoutButton {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  background-color: #ff3d00; /* Cor de fundo vermelha intensa */
+  color: white; /* Cor do texto */
+  text-decoration: none; /* Remove sublinhado */
+  border: none; /* Remove borda */
+  cursor: pointer; /* Cursor de mão ao passar o mouse */
+  transition: background-color 0.3s; /* Transição suave de cor de fundo */
+}
+
+
+
+#logoutButton:hover {
+  background-color: #d50000; /* Cor de fundo mais escura ao passar o mouse */
+}
+
+#logoutButton:focus {
+  outline: none; /* Remove contorno ao focar */
+}
+
+/* Estilos para o botão de fechar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
 }
