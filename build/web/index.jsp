@@ -22,7 +22,7 @@
                     <img id="gif" src="assets/imgLevantando.png" alt="Pessoa levantando peso">
                     <img id="static-image" src="assets/gifLevantando.gif" alt="Imagem estática">
                 </div>
-                <form id="loginForm" method="post" action="/gympro/ServletLogin">
+                <form id="loginForm" method="post" action="${pageContext.request.contextPath}/ServletLogin">
                     <label for="cpf">CPF:</label><br>
                     <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required maxlength="11"><br>
                     <label for="senha">Senha:</label><br>
@@ -40,7 +40,7 @@
         <div id="modal" class="overlay">
             <div class="modal">
                 <h2>Cadastro de Aluno</h2>
-                <form id="cadastroForm" method="post" action="/gympro/ServletCadastrarUsuario">
+                <form id="cadastroForm" method="post" action="${pageContext.request.contextPath}/ServletCadastrarUsuario">
                     <label for="nome">Nome:</label><br>
                     <input type="text" id="nome" name="nome" required maxlength="60"><br>
                     <label for="senha">Senha:</label><br>

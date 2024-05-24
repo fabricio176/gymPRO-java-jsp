@@ -38,11 +38,11 @@ public class ServletAdicionarUsuario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            String nome = request.getParameter("nome");
-            String senha = request.getParameter("senha");
-            String cpf = request.getParameter("cpf");
-            String endereco = request.getParameter("endereco");
-            String telefone = request.getParameter("telefone");
+            String nome = request.getParameter("nomeNovo");
+            String senha = request.getParameter("senhaNova");
+            String cpf = request.getParameter("cpfNovo");
+            String endereco = request.getParameter("enderecoNovo");
+            String telefone = request.getParameter("telefoneNovo");
 
             Aluno a = new Aluno();
             a.setNome(nome);
