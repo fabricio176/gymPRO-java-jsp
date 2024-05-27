@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.controle;
 
-/**
- *
- * @author victo
- */
 public class Aluno {
     private int matricula;
     private String nome;
@@ -16,6 +8,21 @@ public class Aluno {
     private String endereco;
     private String telefone;
 
+    // Construtor padrão
+    public Aluno() {
+    }
+
+    // Construtor com parâmetros
+    public Aluno(int matricula, String nome, String senha, String cpf, String endereco, String telefone) {
+        this.matricula = matricula;
+        this.nome = nome;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.telefone = telefone;
+    }
+
+    // Getters e Setters
     public int getMatricula() {
         return matricula;
     }
@@ -63,6 +70,4 @@ public class Aluno {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    
-    
 }

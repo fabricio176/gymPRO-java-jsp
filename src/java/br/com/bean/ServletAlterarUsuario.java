@@ -16,17 +16,21 @@ public class ServletAlterarUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            try {
+
+        String method = request.getMethod();
+        if (method.equals("POST")) {
+            handlePostRequest(request, response);
+        } else {
+            handleGetRequest(request, response);
+        }
+    }
+
+    private void handleGetRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
             int matricula = Integer.parseInt(request.getParameter("matricula"));
             CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
-            Aluno usuario = null;
-            try {
-                usuario = dao.getUsuarioByMatricula(matricula);
-            } catch (Exception e) {
-                e.printStackTrace();
-                response.sendRedirect("erro.jsp");
-                return;
-            }
+            Aluno usuario = dao.getUsuarioByMatricula(matricula);
 
             if (usuario == null) {
                 String msg = "Não foram encontrados registros.";
@@ -43,6 +47,30 @@ public class ServletAlterarUsuario extends HttpServlet {
             request.setAttribute("msgResposta", msg);
             RequestDispatcher enviar = request.getRequestDispatcher("sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp");
             enviar.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("erro.jsp");
+        }
+    }
+
+    private void handlePostRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int matricula = Integer.parseInt(request.getParameter("matricula"));
+            String nome = request.getParameter("nome");
+            String senha = request.getParameter("senha");
+            String cpf = request.getParameter("cpf");
+            String endereco = request.getParameter("endereco");
+            String telefone = request.getParameter("telefone");
+
+            CadastroUsuarioDAO dao = new CadastroUsuarioDAO();
+            Aluno usuario = new Aluno(matricula, nome, senha, cpf, endereco, telefone);
+            dao.atualizarUsuario(usuario);
+
+            response.sendRedirect(request.getContextPath() + "/sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp?sucess=true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("erro.jsp");
         }
     }
 
@@ -60,6 +88,6 @@ public class ServletAlterarUsuario extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet para alterar dados de usuários";
     }
 }

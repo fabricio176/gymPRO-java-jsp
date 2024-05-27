@@ -49,7 +49,7 @@ public class CadastroUsuarioDAO extends DAO {
         return listaAlunos;
     }
 
-     public boolean deletar(Aluno aluno) throws Exception {
+    public boolean deletar(Aluno aluno) throws Exception {
         try {
             abrirBanco();
             String query = "DELETE FROM aluno WHERE matricula=?";
@@ -63,7 +63,6 @@ public class CadastroUsuarioDAO extends DAO {
             throw new Exception("Erro ao deletar aluno", e);
         }
     }
-
 
     public void alterar(Aluno aluno) throws Exception {
         try {
@@ -134,30 +133,27 @@ public class CadastroUsuarioDAO extends DAO {
         }
         return aluno;
     }
-    
+
     public String getNomeUsuarioByCpf(String cpf) throws Exception {
-    String nome = null;
-    try {
-        abrirBanco();
-        String query = "SELECT nome FROM aluno WHERE cpf=?";
-        pst = con.prepareStatement(query);
-        pst.setString(1, cpf);
-        ResultSet rs = pst.executeQuery();
-        if (rs.next()) {
-            nome = rs.getString("nome");
+        String nome = null;
+        try {
+            abrirBanco();
+            String query = "SELECT nome FROM aluno WHERE cpf=?";
+            pst = con.prepareStatement(query);
+            pst.setString(1, cpf);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                nome = rs.getString("nome");
+            }
+            fecharBanco();
+        } catch (Exception e) {
+            System.out.println("CPF Não encontrado: " + e.getMessage());
+            fecharBanco();
+            throw e;
         }
-        fecharBanco();
-    } catch (Exception e) {
-        System.out.println("CPF Não encontrado: " + e.getMessage());
-        fecharBanco();
-        throw e;
+        return nome;
     }
-    return nome;
-}
-    
-    
-    
-    
+
     public Aluno autenticar(String cpf, String senha) throws Exception {
         Aluno aluno = null;
         try {
@@ -180,7 +176,7 @@ public class CadastroUsuarioDAO extends DAO {
         }
         return aluno;
     }
-    
+
     public boolean existeCpf(String cpf) throws Exception {
         boolean existe = false;
         try {
@@ -201,5 +197,25 @@ public class CadastroUsuarioDAO extends DAO {
         }
         return existe;
     }
-    
+
+    public void atualizarUsuario(Aluno aluno) throws Exception {
+        try {
+            abrirBanco();
+            String query = "UPDATE aluno SET nome=?, senha=?, cpf=?, endereco=?, telefone=? WHERE matricula=?";
+            pst = con.prepareStatement(query);
+            pst.setString(1, aluno.getNome());
+            pst.setString(2, aluno.getSenha());
+            pst.setString(3, aluno.getCpf());
+            pst.setString(4, aluno.getEndereco());
+            pst.setString(5, aluno.getTelefone());
+            pst.setInt(6, aluno.getMatricula());
+            pst.executeUpdate();
+            fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar aluno: " + e.getMessage());
+            fecharBanco();
+            throw e;
+        }
+    }
+
 }

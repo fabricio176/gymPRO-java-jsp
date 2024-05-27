@@ -23,6 +23,7 @@
         <title>Gerenciamento de Usuários</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/globalCss.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/atualizarUsuario.css"> <!-- Adicione seu CSS aqui -->
+        <script src="${pageContext.request.contextPath}/js/verificaUrl.js"></script>
     </head>
 
     <header>
@@ -71,7 +72,7 @@
                     <label for="telefoneNovo">Telefone:</label>
                     <input type="text" id="telefoneNovo" name="telefone">
 
-                    <button type="submit">Adicionar</button>
+                    <button type="su bmit">Adicionar</button>
                 </form>
             </div>
 
