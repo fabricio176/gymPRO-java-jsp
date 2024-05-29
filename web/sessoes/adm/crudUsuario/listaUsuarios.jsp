@@ -13,6 +13,7 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Matrícula</th>
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Endereço</th>
@@ -23,6 +24,7 @@
             <!-- Utilizando a tag forEach para iterar sobre a lista de usuários -->
             <c:forEach var="usuario" items="${listaUsuarios}">
                 <tr>
+                    <td>${usuario.matricula}</td>
                     <td>${usuario.nome}</td>
                     <td>${usuario.cpf}</td>
                     <td>${usuario.endereco}</td>

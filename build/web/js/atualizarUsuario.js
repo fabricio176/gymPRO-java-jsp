@@ -46,3 +46,10 @@ function mostrarDiv(idDiv) {
     document.getElementById(idDiv).style.display = 'block';
 }
 
+// Ao Inserir exibir bem sucedido
+
+// Chamar a função de exibição do pop-up ao carregar a página
+window.onload = function () {
+    exibirPopup();
+};
+
