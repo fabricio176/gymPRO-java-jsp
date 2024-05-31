@@ -20,6 +20,7 @@ function openDeleteModal() {
     }
 }
 
+
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = "none";
 }

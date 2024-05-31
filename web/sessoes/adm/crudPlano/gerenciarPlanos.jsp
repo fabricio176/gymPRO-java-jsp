@@ -1,60 +1,82 @@
-<%-- 
-    Document   : gerenciarPlanos
-    Created on : 9 de mai. de 2024, 21:35:55
-    Author     : victo
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="br.com.controle.Plano"%>
+<%@ page import="br.com.entidade.CadastroPlanoDAO"%>
 <!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Planos</title>
-</head>
-<body>
-    <h1>Gerenciamento de Planos</h1>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Gerenciamento de Planos</title>
+    </head>
+    <body>
+        <h1>Gerenciamento de Planos</h1>
 
-    <!-- Formulário para adicionar plano -->
-    <h2>Adicionar Plano</h2>
-    <form action="adicionarPlano.jsp" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-        
-        <label for="tipo">Tipo:</label>
-        <input type="text" id="tipo" name="tipo" required><br><br>
-        
-        <label for="valor">Valor:</label>
-        <input type="text" id="valor" name="valor" required><br><br>
-        
-        <button type="submit">Adicionar</button>
-    </form>
-
-    <!-- Tabela para listar planos existentes -->
-    <h2>Lista de Planos</h2>
-    <table border="1">
-        <thead>
+        <!-- Formulário para adicionar plano -->
+        <h2>Adicionar Plano</h2>
+        <table>
             <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Aqui você pode preencher dinamicamente os dados da tabela com os planos existentes -->
-            <!-- Por exemplo, usando JSP para obter os dados do banco de dados -->
-            <!-- <tr>
-                <td>1</td>
-                <td>Plano A</td>
-                <td>Tipo A</td>
-                <td>R$ 100,00</td>
                 <td>
-                    <a href="editarPlano.jsp?codigo=1">Editar</a>
-                    <a href="excluirPlano.jsp?codigo=1">Excluir</a>
+                    <form action="ServletPlano?action=adicionar" method="post">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+                        </td>
+                        <td>
+                            <label for="tipo">Tipo:</label>
+                            <input type="text" id="tipo" name="tipo" required>
+                        </td>
+                        <td>
+                            <label for="valor">Valor:</label>
+                            <input type="text" id="valor" name="valor" required>
+                        </td>
+                        <td>
+                            <button type="submit">Adicionar</button>
+                    </form>
                 </td>
-            </tr> -->
-        </tbody>
-    </table>
-</body>
+            </tr>
+        </table>
+
+        <!-- Tabela para listar planos existentes -->
+        <h2>Lista de Planos</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% 
+                    CadastroPlanoDAO planoDAO = new CadastroPlanoDAO();
+                    ArrayList<Plano> listaPlanos = planoDAO.pesquisarTudo();
+                    for (Plano plano : listaPlanos) { 
+                %>
+                <tr>
+                    <td><%= plano.getCodigo() %></td>
+                    <td><%= plano.getNome() %></td>
+                    <td><%= plano.getTipo() %></td>
+                    <td><%= plano.getValor() %></td>
+                    <td>
+                        <form action="ServletPlano?action=editar&codigo=<%= plano.getCodigo() %>" method="post">
+                            <input type="hidden" name="codigo" value="<%= plano.getCodigo() %>">
+                            <label for="nomeEdit">Nome:</label>
+                            <input type="text" id="nomeEdit" name="nome" value="<%= plano.getNome() %>" required>
+
+                            <label for="tipoEdit">Tipo:</label>
+                            <input type="text" id="tipoEdit" name="tipo" value="<%= plano.getTipo() %>" required>
+
+                            <label for="valorEdit">Valor:</label>
+                            <input type="text" id="valorEdit" name="valor" value="<%= plano.getValor() %>" required>
+
+                            <button type="submit">Editar</button>
+                        </form>
+                        <a href="ServletPlano?action=excluir&codigo=<%= plano.getCodigo() %>">Excluir</a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </body>
 </html>

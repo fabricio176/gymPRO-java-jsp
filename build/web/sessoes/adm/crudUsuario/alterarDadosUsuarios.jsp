@@ -4,12 +4,14 @@
 
 <%
     String matriculaParam = request.getParameter("matricula");
-    Aluno usuario = null;
+    // Removido: Aluno usuario = null;
     if (matriculaParam != null && !matriculaParam.isEmpty()) {
         int matricula = Integer.parseInt(matriculaParam);
         CadastroUsuarioDAO usuarioDAO = new CadastroUsuarioDAO();
         try {
-            usuario = usuarioDAO.getUsuarioByMatricula(matricula);
+            // Movida a declaração de usuario para dentro do bloco try-catch
+            Aluno usuario = usuarioDAO.getUsuarioByMatricula(matricula);
+            request.setAttribute("usuario", usuario); // Adicionada esta linha para usar usuario em deleteModal
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -21,6 +23,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Gerenciamento de Usuários</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/globalCss.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/atualizarUsuario.css"> <!-- Adicione seu CSS aqui -->
     </head>
@@ -30,14 +33,19 @@
             <div class="left-options">
                 <ul class="nav">
                     <li><a href="url"><span><div class="iconLogo" id="iconLogoWidth"></div></span></a></li>
-                    <li><a href="url">Gerenciar Planos</a></li>
-                    <li><a href="url">Gerenciar Usuários</a></li>              
+                    <li><a href="">Gerenciar Planos</a></li>
+                    <li><a href="${pageContext.request.contextPath}/sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp">Gerenciar Usuários</a></li>              
                 </ul>
             </div>
-            <div class="user-info">
-                <span>Administrador</span>
 
-                <button onclick="openSettings()">Configurações</button>
+
+            <div class="user-info">
+
+                <ul class="nav">
+                    <li><span> Página do Administrador</span></li>
+                    <li><a href="${pageContext.request.contextPath}/sessoes/adm/loginAdm.jsp">SAIR</a></li>
+                                  
+                </ul>
             </div>
         </div>
     </header>
@@ -47,7 +55,7 @@
                 <li><a onclick="mostrarDiv('addUser')">Adicionar Usuário</a></li>
                 <li><a onclick="mostrarDiv('deleteUser')">Deletar Usuário</a></li>
                 <li><a onclick="mostrarDiv('updateUser')">Atualizar Usuário</a></li>
-                <li><a  onclick="mostrarDiv('listUsers')">Ver Lista de Usuários</a></li>
+                <li><a onclick="mostrarDiv('listUsers')">Ver Lista de Usuários</a></li>
             </ul>
         </nav>
 
@@ -71,7 +79,7 @@
                     <label for="telefoneNovo">Telefone:</label>
                     <input type="text" id="telefoneNovo" name="telefoneNovo">
 
-                    <button type="su bmit">Adicionar</button>
+                    <button type="submit">Adicionar</button>
                 </form>
             </div>
 
@@ -88,8 +96,10 @@
             <!-- Modal -->
             <div id="modal" class="modal">
                 <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <% if (matriculaParam != null) { %>
+                    <span class="close" onclick="closeModalAndRedirect()">&times;</span>
+                    <% if (matriculaParam != null) { 
+                        Aluno usuario = (Aluno) request.getAttribute("usuario");
+                        if (usuario != null) { %>
                     <form id="editarUsuarioForm" action="${pageContext.request.contextPath}/ServletAlterarUsuario" method="post">
                         <h2>Editar Usuário</h2>
                         <input type="hidden" id="matricula" name="matricula" value="<%= usuario.getMatricula() %>">
@@ -110,9 +120,10 @@
 
                         <button type="submit">Atualizar</button>
                     </form>
-                    <% } else if (matriculaParam != null) { %>
+                    <% } else { %>
                     <p>Usuário não encontrado.</p>
-                    <% } %>
+                    <% } 
+                } %>
                 </div>
             </div>
 
@@ -129,7 +140,10 @@
             <div id="deleteModal" class="modal">
                 <div class="modal-content">
                     <span class="close" onclick="closeDeleteModal()">&times;</span>
-                    <% if (usuario != null && request.getParameter("deletar") != null) { %>
+                    <%
+                        Aluno usuario = (Aluno) request.getAttribute("usuario");
+                        if (usuario != null && request.getParameter("deletar") != null) { 
+                    %>
                     <form id="deletarUsuarioConfirmForm" action="${pageContext.request.contextPath}/ServletDeletarUsuario" method="post">
                         <h2>Deletar Usuário</h2>
                         <p>Tem certeza que deseja deletar o usuário <strong><%= usuario.getNome() %></strong>?</p>
@@ -137,7 +151,9 @@
                         <button type="submit">Deletar</button>
                         <button type="button" onclick="closeDeleteModal()">Cancelar</button>
                     </form>
-                    <% } else if (request.getParameter("deletar") != null) { %>
+                    <% 
+                        } else if (request.getParameter("deletar") != null) { 
+                    %>
                     <p>Usuário não encontrado.</p>
                     <% } %>
                 </div>
@@ -150,64 +166,65 @@
                 </form>
             </div>
 
-            <!-- Janela Modal de Configurações -->
-            <div id="settingsModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close" onclick="closeSettings()">&times;</span>
-                    <h2>Configurações</h2>
-                    <p>Área do Aluno</p>
-                    <p><button type="submit"><a href="${pageContext.request.contextPath}/index.jsp" id="logoutButton">Sair</a></button></p>
-                </div>
-            </div>
+
 
             <script src="${pageContext.request.contextPath}/js/atualizarUsuario.js"></script>
             <script>
-                <% if (usuario != null) { %>
+                <% if (request.getAttribute("usuario") != null) { %>
                         document.getElementById('modal').style.display = "block";
                 <% } %>
-                <% if (usuario != null && request.getParameter("deletar") != null) { %>
+                <% if (request.getAttribute("usuario") != null && request.getParameter("deletar") != null) { %>
                         document.getElementById('deleteModal').style.display = "block";
                 <% } %>
-
 
                 <% if (session.getAttribute("insercaoSucesso") != null && (boolean) session.getAttribute("insercaoSucesso")) { %>
                         alert("Inserção bem-sucedida!");
                 <% session.removeAttribute("insercaoSucesso"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("insercaoErro") != null && (boolean) session.getAttribute("insercaoErro")) { %>
                         alert("Erro ao inserir usuário!");
                 <% session.removeAttribute("insercaoErro"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("delecaoSucesso") != null && (boolean) session.getAttribute("delecaoSucesso")) { %>
                         alert("Usuário deletado com sucesso!");
                 <% session.removeAttribute("delecaoSucesso"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("delecaoErro") != null && (boolean) session.getAttribute("delecaoErro")) { %>
                         alert("Erro ao deletar usuário!");
                 <% session.removeAttribute("delecaoErro"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("atualizacaoSucesso") != null && (boolean) session.getAttribute("atualizacaoSucesso")) { %>
                         alert("Atualização bem-sucedida!");
                 <% session.removeAttribute("atualizacaoSucesso"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("atualizacaoErro") != null && (boolean) session.getAttribute("atualizacaoErro")) { %>
                         alert("Erro ao atualizar usuário!");
                 <% session.removeAttribute("atualizacaoErro"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } else if (session.getAttribute("erroOperacao") != null && (boolean) session.getAttribute("erroOperacao")) { %>
                         alert("Erro ao realizar a operação!");
                 <% session.removeAttribute("erroOperacao"); %>
-                        // Atualiza o conteúdo da página sem recarregar
                         location.href = location.href;
                 <% } %>
+
+                        function closeModalAndRedirect() {
+                            // Fecha o modal
+                            document.getElementById('modal').style.display = 'none';
+                            // Redireciona para alterarDadosUsuarios.jsp
+                            window.location.href = '${pageContext.request.contextPath}/sessoes/adm/crudUsuario/alterarDadosUsuarios.jsp';
+                        }
             </script>
         </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Fabrício Taveira e Victor Garcia. Todos os direitos reservados.</p>
+                <ul class="footer-links">
+                    <li><a href="tel:+55123456789">Telefone: (12) 3456-789</a></li>
+                    <li><a href="mailto:contato@seudominio.com">Email: gympro@gympro.com</a></li>
+                </ul>
+            </div>
+        </footer>
     </body>
 
 </html>

@@ -1,0 +1,113 @@
+/*Cabeçalho*/
+.header {
+    background-color: #342800;
+    color: #fff;
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para os itens da barra de navegação */
+.nav li {
+    float: left; /* Alinha os itens na horizontal */
+}
+
+/* Estilos para os links */
+.nav li a {
+    font-size: 25px;
+    font-weight: bold;
+
+    display: block;
+    color: white; /* Cor do texto */
+    text-align: center;
+    padding: 14px 16px; /* Espaçamento interno */
+    text-decoration: none;
+}
+
+/* Estilos para os links ao passar o mouse sobre eles */
+.nav li a:hover {
+    background-color: #111; /* Cor de fundo ao passar o mouse */
+}
+
+
+#iconLogoWidth{
+    width: 300px;
+    height: 80px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+
+span{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+.user-info span {
+    margin-right: 10px;
+}
+.user-info button {
+    background-color: #f5f5dc;
+
+    font-size: 15px;
+    font-weight: bold;
+    color: #342800 ;
+
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.footer {
+    background-color: #342800; /* Cor de fundo do footer */
+    color: #fff; /* Cor do texto do footer */
+    padding: 20px 0; /* Espaçamento interno superior e inferior */
+    text-align: center; /* Alinhamento do texto ao centro */
+}
+
+.footer-content {
+    max-width: 1200px; /* Largura máxima do conteúdo do footer */
+    margin: 0 auto; /* Centraliza o conteúdo horizontalmente */
+}
+
+.footer p {
+    margin-bottom: 10px; /* Espaçamento inferior para o texto do footer */
+}
+
+.footer-links {
+    list-style-type: none; /* Remove os marcadores da lista */
+    padding: 0; /* Remove o espaçamento interno da lista */
+}
+
+.footer-links li {
+    display: inline; /* Exibe os itens da lista em linha */
+    margin: 0 10px; /* Espaçamento horizontal entre os itens */
+}
+
+.footer-links li a {
+    color: #fff; /* Cor dos links do footer */
+    text-decoration: none; /* Remove a decoração de texto dos links */
+}
+
+.footer-links li a:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre os links */
+}
